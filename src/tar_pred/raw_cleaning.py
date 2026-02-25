@@ -86,8 +86,7 @@ def renormalize_proximate_to_100(df: pd.DataFrame, warnings: List[str]) -> pd.Da
 
 def coerce_categories(df: pd.DataFrame, warnings: List[str]) -> pd.DataFrame:
     """
-    Minimal categorical coercion: strip spaces and keep as string.
-    (Actual allowed/excluded validation is handled in schema.py.)
+    Coerce categorical columns to pandas 'category' dtype (as training FeatureBuilder expects).
     """
     df2 = df.copy()
     for c in CAT_COLS:
@@ -96,7 +95,7 @@ def coerce_categories(df: pd.DataFrame, warnings: List[str]) -> pd.DataFrame:
                 df2[c].astype(str)
                 .str.strip()
                 .str.replace(r"\s+", " ", regex=True)
-            )
+            ).astype("category")
     return df2
 
 
