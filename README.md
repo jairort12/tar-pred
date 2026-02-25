@@ -2,15 +2,15 @@
 
 
 
-This repository ships \*\*pre-trained ML/DL models\*\* and the required preprocessing artifacts to:
+This repository ships pre-trained ML/DL models and the required preprocessing artifacts to:
 
-1\) \*\*Predict TAR (g/Nm³)\*\* from a raw CSV following a defined template.
+1\) Predict TAR (g/Nm³) from a raw CSV following a defined template.
 
-2\) \*\*Evaluate all models\*\* on a saved test split and generate \*\*R²\*\* metrics and \*\*y\_true vs y\_pred\*\* plots.
+2\) Evaluate all models on a saved test split and generate R² metrics and `y_true` vs `y_pred` plots.
 
 
 
-> This repo is focused on \*\*inference and evaluation\*\*. The full training workflow and methodology are documented in the associated paper / supplementary material.
+> This repo is focused on inference and evaluation. The full training workflow and methodology are documented in the associated paper / supplementary material.
 
 
 
@@ -56,7 +56,7 @@ This repository ships \*\*pre-trained ML/DL models\*\* and the required preproce
 
 
 
-The raw input must use \*\*semicolon (`;`)\*\* as separator and must follow the templates:
+The raw input must use semicolon (`;`) as separator and must follow the templates:
 
 
 
@@ -66,13 +66,13 @@ The raw input must use \*\*semicolon (`;`)\*\* as separator and must follow the 
 
 
 
-\### Units and bases (required)
+### Units and bases (required)
 
-\- Proximate analysis (`FC`, `VM`, `Ash`): \*\*dry basis\*\*, % mass
+\- Proximate analysis (`FC`, `VM`, `Ash`): dry basis, % mass
 
-\- Ultimate analysis (`pC`, `pH`, `pO`, `pN`, `pS`): \*\*dry basis\*\*, % mass
+\- Ultimate analysis (`pC`, `pH`, `pO`, `pN`, `pS`): dry basis, % mass
 
-\- Gas composition (`H2`, `CH4`, `CO`, `CO2`, `N2`): \*\*% v/v\*\*
+\- Gas composition (`H2`, `CH4`, `CO`, `CO2`, `N2`): % v/v
 
 \- `ER`, `SyBR`: dimensionless
 
@@ -86,7 +86,7 @@ The raw input must use \*\*semicolon (`;`)\*\* as separator and must follow the 
 
 
 
-\### Allowed categorical values (template)
+### Allowed categorical values (template)
 
 \- `GT`: `BFB`, `DG`, `FB`, `CFB`, `DFB`, `UG`
 
@@ -96,9 +96,9 @@ The raw input must use \*\*semicolon (`;`)\*\* as separator and must follow the 
 
 
 
-\### Training-consistent exclusions (warning + drop rows)
+### Training-consistent exclusions (warning + drop rows)
 
-If present, the following rows are \*\*excluded\*\* (models were never trained with them):
+If present, the following rows are excluded (models were never trained with them):
 
 \- `GT ∈ {DTBG, Entrained flow}`
 
@@ -124,15 +124,15 @@ The inference pipeline reproduces the training preparation order:
 
 1\) Drop column `ID` (kept only for output reference if present).
 
-2\) Gas normalization \*\*free of N2\*\* (H2/CO/CH4/CO2 rescaled to sum to 100).
+2\) Gas normalization free of N2 (H2/CO/CH4/CO2 rescaled to sum to 100).
 
 3\) Proximate normalization (FC/VM/Ash rescaled to sum to 100).
 
 4\) Drop column `N2`.
 
-5\) Compute `BM\_Cluster\_Final` via clustering + subclustering (from `artifacts/`).
+5\) Compute `BM_Cluster_Final` via clustering + subclustering (from `artifacts/`).
 
-6\) Drop training-removed variables when present: `\['Ash', 'VM', 'pO', 'BF', 'BM']`.
+6\) Drop training-removed variables when present: `['Ash', 'VM', 'pO', 'BF', 'BM']`.
 
 7\) Feature engineering via `FeatureBuilder` (embedded in model pipelines).
 
@@ -173,15 +173,11 @@ This repository includes:
 
 
 
-requirements.lock.txt: an environment snapshot for reference.
+\- `requirements.lock.txt`: an environment snapshot for reference.
 
 
 
-Important: Loading pickled scikit-learn pipelines is most reliable when using compatible
-
-versions of scikit-learn (and sometimes numpy). If you see InconsistentVersionWarning,
-
-consider aligning versions to those used during training.
+> Important: Loading pickled scikit-learn pipelines is most reliable when using compatible versions of scikit-learn (and sometimes numpy). If you see `InconsistentVersionWarning`, consider aligning versions to those used during training.
 
 
 
@@ -189,23 +185,11 @@ A minimal dependency set typically includes:
 
 
 
-numpy, pandas, scipy
+\- `numpy`, `pandas`, `scipy`, `scikit-learn`, `joblib`, `matplotlib`
 
 
 
-scikit-learn
-
-
-
-joblib
-
-
-
-matplotlib
-
-
-
-optional (required by some models): xgboost, lightgbm, catboost
+> Optional (required by some models): xgboost, lightgbm, catboost
 
 
 
@@ -215,97 +199,72 @@ Example: Python 3.12.x, scikit-learn 1.6.1, numpy 2.x
 
 
 
-Usage
+## Usage
 
 1\) Predict from a raw CSV
 
+```bash
+
 tar-predict predict \\
-
 &nbsp; --input data/raw/your\_data.csv \\
-
 &nbsp; --model-path models/your\_model.pkl \\
-
 &nbsp; --artifacts-dir artifacts \\
-
 &nbsp; --out reports/predictions.csv \\
-
 &nbsp; --report reports/prediction\_report.json
-
+```
 
 
 Output:
 
+\- `reports/predictions.csv` (contains ID if provided + `y_pred`).
+
+\- `reports/prediction_report.json` (warnings, exclusions, pipeline metadata).
 
 
-reports/predictions.csv (contains ID if provided + y\_pred)
-
-
-
-reports/prediction\_report.json (warnings, exclusions, pipeline metadata)
-
-
-
-2\) Evaluate all models on X\_test/y\_test
+2\) Evaluate all models on `X_test` and `y_test`
 
 
 
 Place these files locally:
 
+```bash
 
-
-data/processed/X\_test.pkl
-
-
-
+data/processed/X_test.pkl
 data/processed/y\_test.pkl
-
+```
 
 
 Then run:
 
-
-
+```bash
 tar-predict evaluate \\
-
 &nbsp; --models-dir models \\
-
 &nbsp; --x-test data/processed/X\_test.pkl \\
-
 &nbsp; --y-test data/processed/y\_test.pkl \\
-
 &nbsp; --outdir reports
-
-
+```
 
 Output:
 
+\- `reports/metrics.csv` (R² per model, sorted best-to-worst).
 
 
-reports/metrics.csv (R² per model, sorted best-to-worst)
+\- `reports/figures/*.png` (scatter plots with diagonal y=x).
 
 
-
-reports/figures/\*.png (scatter plots with diagonal y=x)
-
+\- `reports/fallos.csv` (only if a model fails to load/run)
 
 
-reports/fallos.csv (only if a model fails to load/run)
+---
 
-
-
-Notes on model loading and security
+## Notes on model loading and security
 
 
 
-This project uses joblib.load() to load model pipelines (.pkl). Pickle files can execute
-
-arbitrary code if tampered with. Only load model files you trust.
+This project uses joblib.load() to load model pipelines (.pkl). Pickle files can execute arbitrary code if tampered with. Only load model files you trust.
 
 
-
-Citation
-
-
+## Citation
 
 If you use this repository in academic work, please cite the associated paper:
 
@@ -315,7 +274,7 @@ If you use this repository in academic work, please cite the associated paper:
 
 
 
-License
+## License
 
 
 
