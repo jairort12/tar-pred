@@ -190,7 +190,9 @@ A minimal dependency set typically includes:
 ###  Optional dependencies (required for some models)
 
 Some saved pipelines require additional libraries:
+
 \-  LightGBM models: `lightgbm_*.pkl`
+
 \-  CatBoost models: `catboost_*.pkl`
 
 To enable basic models, install:
