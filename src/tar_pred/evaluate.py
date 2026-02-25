@@ -26,11 +26,7 @@ def run_evaluate(args) -> None:
     X_test = joblib.load(args.x_test)
     y_test = joblib.load(args.y_test)
 
-    # Make sure y_test is 1D array-like
-    if isinstance(y_test, (pd.DataFrame, pd.Series)):
-        y_true = np.asarray(y_test).reshape(-1)
-    else:
-        y_true = np.asarray(y_test).reshape(-1)
+    y_true = np.asarray(y_test).reshape(-1)
 
     # 2) find model files
     model_files = sorted(models_dir.glob("*.pkl"))
@@ -41,35 +37,40 @@ def run_evaluate(args) -> None:
     failed = []
 
     # Compatibility: older pickles may reference FeatureBuilder in __main__
-    import __main__  # noqa
-    from tar_pred.feature_engineering import FeatureBuilder  # noqa
+    import __main__  # noqa: E402
+    from tar_pred.feature_engineering import FeatureBuilder  # noqa: E402
     __main__.FeatureBuilder = FeatureBuilder
 
     for i, mp in enumerate(model_files, start=1):
         name = mp.stem
+        print(f"[{i}/{len(model_files)}] Evaluando y graficando: {name}")
+
         try:
-            print(f"[{i}/{len(model_files)}] Evaluando y graficando: {name}")
-	    model = joblib.load(mp)
+            model = joblib.load(mp)
             y_pred = model.predict(X_test)
             y_pred = np.asarray(y_pred).reshape(-1)
 
             r2 = float(r2_score(y_true, y_pred))
 
-            # Save scatter plot y_test vs y_pred
+            # Save scatter plot y_test vs y_pred + diagonal y=x
             plt.figure()
             plt.scatter(y_true, y_pred, alpha=0.7)
+
             vmin = float(min(y_true.min(), y_pred.min()))
-	    vmax = float(max(y_true.max(), y_pred.max()))
-	    plt.plot([vmin, vmax], [vmin, vmax], linestyle="--")
-	    plt.xlim(vmin, vmax)
-	    plt.ylim(vmin, vmax)
+            vmax = float(max(y_true.max(), y_pred.max()))
+            plt.plot([vmin, vmax], [vmin, vmax], linestyle="--")
+            plt.xlim(vmin, vmax)
+            plt.ylim(vmin, vmax)
+
             plt.xlabel("y_test")
             plt.ylabel("y_pred")
             plt.title(f"{name} | R2={r2:.4f}")
+
             plot_path = figdir / f"{_safe_name(name)}.png"
             plt.savefig(plot_path, dpi=150, bbox_inches="tight")
-	    print(f"   -> R2={r2:.4f}")
             plt.close()
+
+            print(f"   -> R2={r2:.4f}")
 
             rows.append(
                 {
