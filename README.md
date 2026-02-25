@@ -1,4 +1,4 @@
-\# TAR Prediction – Inference \& Model Evaluation
+# TAR Prediction – Inference \& Model Evaluation
 
 
 
@@ -18,7 +18,7 @@ This repository ships \*\*pre-trained ML/DL models\*\* and the required preproce
 
 
 
-\## Repository structure
+## Repository structure
 
 
 
@@ -40,7 +40,7 @@ This repository ships \*\*pre-trained ML/DL models\*\* and the required preproce
 
 \- `data/processed/`  
 
-&nbsp; Expected local location for `X\_test.pkl` and `y\_test.pkl` when running `evaluate`.
+&nbsp; Expected local location for `X_test.pkl` and `y_test.pkl` when running `evaluate`.
 
 \- `reports/`  
 
@@ -52,7 +52,7 @@ This repository ships \*\*pre-trained ML/DL models\*\* and the required preproce
 
 
 
-\## Data input: CSV template and units
+## Data input: CSV template and units
 
 
 
@@ -114,7 +114,7 @@ The code will emit warnings and drop those rows (it will not hard-fail).
 
 
 
-\## Preprocessing performed during inference
+## Preprocessing performed during inference
 
 
 
@@ -144,11 +144,11 @@ The inference pipeline reproduces the training preparation order:
 
 
 
-\## Installation
+## Installation
 
 
 
-\### Recommended: create a virtual environment (Windows / Git Bash)
+### Recommended: create a virtual environment (Windows / Git Bash)
 
 
 
@@ -159,16 +159,13 @@ From the repository root:
 ```bash
 
 py -3.12 -m venv tar-pred-venv
-
 source tar-pred-venv/Scripts/activate
-
 python -m pip install -U pip
-
 python -m pip install -e . --no-deps
+```
 
 
-
-Dependencies and reproducibility
+## Dependencies and reproducibility
 
 
 
