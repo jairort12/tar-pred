@@ -193,6 +193,11 @@ Some saved pipelines require additional libraries:
 \-  LightGBM models: `lightgbm_*.pkl`
 \-  CatBoost models: `catboost_*.pkl`
 
+To enable basic models, install:
+```bash
+python -m pip install -r requirements.txt
+````
+
 To enable loading/evaluating  all  models, install:
 ```bash
 python -m pip install -r requirements-optional.txt
@@ -202,11 +207,20 @@ python -m pip install -r requirements-optional.txt
 
 
 
-Tested environment: \[fill this with your final local versions]
+Tested environment:
 
-Example: Python 3.12.x, scikit-learn 1.6.1, numpy 2.x
-
-
+```bash
+Python 3.12.9
+pip 26.0.1
+numpy 2.4.2
+pandas 3.0.1
+scikit-learn 1.6.1
+joblib 1.5.3
+xgboost 3.2.0
+matplotlib 3.10.8
+lightgbm 4.6.0
+catboost 1.2.10
+```
 
 ## Usage
 
