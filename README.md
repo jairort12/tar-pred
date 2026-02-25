@@ -34,7 +34,7 @@ This repository ships pre-trained ML/DL models and the required preprocessing ar
 
 &nbsp; CSV templates and data dictionary (units, categorical values, constraints).
 
-\- `src/tar\_pred/`  
+\- `src/tar_pred/`  
 
 &nbsp; Python package for preprocessing, prediction, and evaluation.
 
