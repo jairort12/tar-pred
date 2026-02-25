@@ -187,7 +187,16 @@ A minimal dependency set typically includes:
 
 \- `numpy`, `pandas`, `scipy`, `scikit-learn`, `joblib`, `matplotlib`
 
+###  Optional dependencies (required for some models)
 
+Some saved pipelines require additional libraries:
+\-  LightGBM models: `lightgbm_*.pkl`
+\-  CatBoost models: `catboost_*.pkl`
+
+To enable loading/evaluating  all  models, install:
+```bash
+python -m pip install -r requirements-optional.txt
+````
 
 > Optional (required by some models): xgboost, lightgbm, catboost
 
