@@ -205,12 +205,12 @@ Example: Python 3.12.x, scikit-learn 1.6.1, numpy 2.x
 
 ```bash
 
-tar-predict predict \\
-&nbsp; --input data/raw/your\_data.csv \\
-&nbsp; --model-path models/your\_model.pkl \\
-&nbsp; --artifacts-dir artifacts \\
-&nbsp; --out reports/predictions.csv \\
-&nbsp; --report reports/prediction\_report.json
+tar-predict predict \
+  --input data/raw/your\_data.csv \
+  --model-path models/YOUR_MODEL.pkl \
+  --artifacts-dir artifacts \
+  --out reports/predictions.csv \
+  --report reports/prediction\*_report.json
 ```
 
 
@@ -230,18 +230,18 @@ Place these files locally:
 ```bash
 
 data/processed/X_test.pkl
-data/processed/y\_test.pkl
+data/processed/y_test.pkl
 ```
 
 
 Then run:
 
 ```bash
-tar-predict evaluate \\
-&nbsp; --models-dir models \\
-&nbsp; --x-test data/processed/X\_test.pkl \\
-&nbsp; --y-test data/processed/y\_test.pkl \\
-&nbsp; --outdir reports
+tar-predict evaluate \
+  --models-dir models \
+  --x-test data/processed/X_test.pkl \
+  --y-test data/processed/y_test.pkl \
+  --outdir reports
 ```
 
 Output:
