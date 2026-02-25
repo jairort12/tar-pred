@@ -45,10 +45,11 @@ def run_evaluate(args) -> None:
     from tar_pred.feature_engineering import FeatureBuilder  # noqa
     __main__.FeatureBuilder = FeatureBuilder
 
-    for mp in model_files:
+    for i, mp in enumerate(model_files, start=1):
         name = mp.stem
         try:
-            model = joblib.load(mp)
+            print(f"[{i}/{len(model_files)}] Evaluando y graficando: {name}")
+	    model = joblib.load(mp)
             y_pred = model.predict(X_test)
             y_pred = np.asarray(y_pred).reshape(-1)
 
@@ -57,11 +58,17 @@ def run_evaluate(args) -> None:
             # Save scatter plot y_test vs y_pred
             plt.figure()
             plt.scatter(y_true, y_pred, alpha=0.7)
+            vmin = float(min(y_true.min(), y_pred.min()))
+	    vmax = float(max(y_true.max(), y_pred.max()))
+	    plt.plot([vmin, vmax], [vmin, vmax], linestyle="--")
+	    plt.xlim(vmin, vmax)
+	    plt.ylim(vmin, vmax)
             plt.xlabel("y_test")
             plt.ylabel("y_pred")
             plt.title(f"{name} | R2={r2:.4f}")
             plot_path = figdir / f"{_safe_name(name)}.png"
             plt.savefig(plot_path, dpi=150, bbox_inches="tight")
+	    print(f"   -> R2={r2:.4f}")
             plt.close()
 
             rows.append(
