@@ -9,4 +9,5 @@ venv/
 tar-pred-venv/
 src/*.egg-info/
 *.egg-info/
-reports/
+reports/*
+!reports/.gitkeep
