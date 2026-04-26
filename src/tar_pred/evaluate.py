@@ -43,7 +43,7 @@ def run_evaluate(args) -> None:
 
     for i, mp in enumerate(model_files, start=1):
         name = mp.stem
-        print(f"[{i}/{len(model_files)}] Evaluando y graficando: {name}")
+        print(f"[{i}/{len(model_files)}] Evaluting and plotting: {name}")
 
         try:
             model = joblib.load(mp)
@@ -74,15 +74,15 @@ def run_evaluate(args) -> None:
 
             rows.append(
                 {
-                    "modelo": name,
+                    "model": name,
                     "r2": r2,
-                    "archivo": str(mp),
-                    "figura": str(plot_path),
+                    "file": str(mp),
+                    "figure": str(plot_path),
                 }
             )
 
         except Exception as e:
-            failed.append({"modelo": name, "archivo": str(mp), "error": repr(e)})
+            failed.append({"model": name, "file": str(mp), "error": repr(e)})
 
     # 3) save metrics
     df = pd.DataFrame(rows).sort_values("r2", ascending=False)
@@ -91,10 +91,10 @@ def run_evaluate(args) -> None:
 
     # 4) save failures (if any)
     if failed:
-        failures_path = outdir / "fallos.csv"
+        failures_path = outdir / "errors.csv"
         pd.DataFrame(failed).to_csv(failures_path, index=False)
-        print(f"[AVISO] Algunos modelos fallaron. Revisa: {failures_path}")
+        print(f"[Waring] Some models fail to predict. Check file: {failures_path}")
 
-    print(f"Modelos evaluados con éxito: {len(df)} / {len(model_files)}")
-    print(f"Métricas guardadas en: {metrics_path}")
-    print(f"Figuras guardadas en: {figdir}")
+    print(f"Models succesfuly evaluated: {len(df)} / {len(model_files)}")
+    print(f"Metrics stored in: {metrics_path}")
+    print(f"Figures stored in: {figdir}")
