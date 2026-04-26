@@ -43,7 +43,7 @@ def run_evaluate(args) -> None:
 
     for i, mp in enumerate(model_files, start=1):
         name = mp.stem
-        print(f"[{i}/{len(model_files)}] Evaluting and plotting: {name}")
+        print(f"[{i}/{len(model_files)}] Evaluating and plotting: {name}")
 
         try:
             model = joblib.load(mp)
@@ -95,6 +95,6 @@ def run_evaluate(args) -> None:
         pd.DataFrame(failed).to_csv(failures_path, index=False)
         print(f"[Waring] Some models fail to predict. Check file: {failures_path}")
 
-    print(f"Models succesfuly evaluated: {len(df)} / {len(model_files)}")
+    print(f"Models successfully evaluated: {len(df)} / {len(model_files)}")
     print(f"Metrics stored in: {metrics_path}")
     print(f"Figures stored in: {figdir}")
