@@ -302,6 +302,6 @@ Volume 369,
 2026,
 122107,
 ISSN 0196-8904,
-https://doi.org/10.1016/j.enconman.2026.122107.]
+https://doi.org/10.1016/j.enconman.2026.122107.
 
 
