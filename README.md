@@ -295,13 +295,13 @@ If you use this repository in academic work, please cite the associated paper:
 
 
 
-\[Add your paper citation here]
+\[Jairo Enrique Rubiano, Daniel Serrano, Néstor Eduardo Sánchez, Iván Orlando Cabeza,
+Data driven models for online tar monitoring in biomass gasification,
+Energy Conversion and Management,
+Volume 369,
+2026,
+122107,
+ISSN 0196-8904,
+https://doi.org/10.1016/j.enconman.2026.122107.]
 
-
-
-## License
-
-
-
-\[Add your chosen license here]
 
